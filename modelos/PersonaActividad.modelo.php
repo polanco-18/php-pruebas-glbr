@@ -1,0 +1,17 @@
+<?php 
+
+require_once "conexion.php";
+
+class ModeloPersonaActividad{
+
+    // Mostrar 
+    static public function mdlListar($tabla){
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+        $stmt->execute();    
+        return $stmt -> fetchAll();  
+        $stmt -> close(); 
+        $stmt=null; 
+    }
+    
+
+}

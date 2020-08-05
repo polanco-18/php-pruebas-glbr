@@ -1,0 +1,48 @@
+.form-control,
+    .btn,
+    .card,
+    .card-body,
+    .modal,
+    .modal-body,
+    .modal-content,
+    .modal-dialog,
+    .modal-dialog-centered,
+    .info-box {
+        border-radius: 0;
+    }
+.Escribir { 
+	position: relative; 
+}
+
+.Escribir span {
+    position:absolute;
+    right:0;
+    width:0; 
+    animation: escribir 3s steps(30) /*Esto hace que se borre y se escriba sola -> infinite alternate*/;
+}
+
+.show{
+    display: block;
+   }
+.btn.disabled, .btn:disabled {
+    opacity: 1;
+}
+
+@keyframes escribir {
+    from { width: 100% } 
+    to { width:0 }
+}
+
+.disable{
+    pointer-events: none;
+}
+.hide{
+    display:none;
+}
+ 
+
+/* dar color al scroll */
+.custom-class > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+    border-radius: 0;
+    background-color: #20609d !important;
+}
