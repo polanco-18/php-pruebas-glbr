@@ -1,3 +1,17 @@
+<?php
+if(isset($_SESSION["AsiFI"])){
+    $FeIN=$_SESSION["AsiFI"];
+    $FeFin=$_SESSION["AsiFF"];
+    $AsiT=$_SESSION["AsiT"];
+    $Per=$_SESSION["AsiPer"];    
+}else{
+    $FeIN=null;
+    $FeFin=null;
+    $AsiT=null;
+    $Per=null;    
+}
+?>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -50,7 +64,7 @@
                         </button>
 
                         <input type="hidden" name="Limpiar" class="form-control"
-                            value="<?php echo $_SESSION["AsiFI"];?>" required>
+                            value="<?=$FeIN;?>" required>
                         <?php
                                 $Editar = new ControladorAsistencia();
                                 $Editar ->ctrLimpiarSesion(); 
@@ -64,14 +78,14 @@
                         <div class="form-group">
                             <label for="">Fecha Inicio</label>
                             <input type="date" name="FechaI" class="form-control"
-                                value="<?php echo $_SESSION["AsiFI"];?>" required>
+                                value="<?=$FeIN;?>" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="">Fecha Fin</label>
                             <input type="date" name="FechaF" class="form-control"
-                                value="<?php echo $_SESSION["AsiFF"];?>" required>
+                                value="<?=$FeFin;?>" required>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -79,8 +93,8 @@
                             <label for="">Personal</label>
                             <select class="form-control js-example-basic-single" name="PERSONA" style="width: 100%;"
                                 name="Persona">
-                                <?php if($_SESSION["AsiPer"]!=null){?>
-                                <option><?php echo $_SESSION["AsiPer"];?></option>
+                                <?php if($Per!=null){?>
+                                <option><?php echo $Per;?></option>
                                 <option>Todos</option>
                                 <?php }else{?>
                                 <option>Todos</option>
@@ -123,8 +137,7 @@
                     <div class="card">
                         <div class="card-body">
                             <table class="table table-bordered table-hover Data-T table-sm dt-responsive text-center"
-                                style="width:100%">
-
+                                style="width:100%"> 
                                 <?php }?>
                                 <thead>
                                     <tr>
@@ -144,10 +157,10 @@
                                 </thead>
                                 <tbody>
                                     <?php  
-                                            $valor=$_SESSION["AsiFI"];
-                                            $valor2=$_SESSION["AsiFF"];
-                                            $valor3=$_SESSION["AsiT"];
-                                            $valor4=$_SESSION["AsiPer"];
+                                            $valor=$FeIN;
+                                            $valor2=$FeFin;
+                                            $valor3=$AsiT;
+                                            $valor4=$Per;
                                             $lista=ControladorAsistencia::ctrBusFecha($valor,$valor2,$valor3,$valor4); 
                                             foreach($lista as $key =>$value){ 
                                                 echo ' 
@@ -231,24 +244,13 @@
                             <input type="text" class="form-control" id="Per" readonly>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row"> 
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label>Estado Actual</label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fas fa-certificate"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" id="selectv" readonly>
-                                    <input type="hidden" class="form-control" name="selectId" id="selectId" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Nuevo estado</label>
+                                <label for="exampleFormControlSelect1">estado</label>
                                 <select class="form-control" name="Categoria">
-                                    <option selected>Seleccione</option>
+                                    <option id="selectId"></option>
+                                    <option value="">Seleccione</option>
                                     <?php  $lista=ControladorCategoriaAsis::ctrListar(); 
                                         foreach($lista as $key =>$value){  
                                    echo'
@@ -256,11 +258,8 @@
                                     ';} ?>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
+                        </div> 
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Turno</label>
                                 <div class="input-group mb-3">
@@ -271,7 +270,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Fecha</label>
                                 <div class="input-group mb-3">

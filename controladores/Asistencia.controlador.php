@@ -252,18 +252,13 @@ class ControladorAsistencia{
                     var element = document.getElementById("loader");
                     element.classList.remove("hide"); 
                     element.classList.add("show");
-                </script>';  
-                if($_POST["Categoria"]=='Seleccione'){
-                    $Cat=$_POST["selectId"];
-                }else{
-                    $Cat=$_POST["Categoria"];
-                }
+                </script>';   
                 //FECHA ACTUAL
                 date_default_timezone_set("America/Lima");  
                 $fecha=date("Y-m-d h:i:s"); 
                     $datos=array(                                
                     "ID_ASISTENCIA"=>$_POST["id"],             
-                    "ID_CATEGORIA_ASI"=>$Cat ,  
+                    "ID_CATEGORIA_ASI"=>$_POST["Categoria"],  
                     "ENTRADA_HORA"=>$_POST["HoraE"] ,  
                     "HORA_SALIDA"=>$_POST["HoraS"] ,            
                     "FECHA_M"=>$fecha,           

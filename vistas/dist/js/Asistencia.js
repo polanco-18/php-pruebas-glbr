@@ -42,8 +42,8 @@ function getObservacion(i) {
             var texto = respuesta["ENTRADA_FECHA"];
             var salida = formato(texto); 
             $("#Fec").val(salida); 
-            $('#selectv').val(respuesta["CATEGORIA"]);
-            $('#selectId').val(respuesta["ID_CATEGORIA_ASI"]);
+            $("#selectId").val(respuesta["ID_CATEGORIA_ASI"]);
+            $("#selectId").text(respuesta["CATEGORIA"]); 
             $("#Obser").val(respuesta["OBSERVACION"]);
 
         }
