@@ -14,8 +14,7 @@ class Usuario {
                 //Validadr Sesion
                 $tabla = "usuario";
                 $item="ID_PERSONA";
-                $valor=$usuario;               
-                
+                $valor=$usuario;           
                 $respuesta1=ModeloUsuario::mdlMostrarUsuario($tabla,$item,$valor);                   
                 //validando usuario y contraseña         
                         //validando si esta incriptado        
@@ -44,7 +43,7 @@ class Usuario {
     } 
     // Crear Usuario 
     public function ctrCrearUsuario($usuario,$c_actual){ 
-            if(preg_match('/^[a-zA-Z0-9]+$/',$usuario) &&
+            if(preg_match('/^[0-9]+$/',$usuario) &&
             preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ]+$/',$c_actual)){ 
                 $tabla ="usuario";
                 //encryptacion de contraseña

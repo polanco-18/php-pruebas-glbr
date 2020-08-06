@@ -20,9 +20,7 @@ class ControladorPersona{
             $ingFecha = ( $_POST['ingFecha'] === NULL ) ? "" : $_POST['ingFecha'];
             $ingCorreo = ( $_POST['ingCorreo'] === NULL ) ? "" : $_POST['ingCorreo'];
             $ingCelular = ( $_POST['ingCelular'] === NULL ) ? "" : $_POST['ingCelular'];                     
-            $ingTelefono = ( $_POST['ingTelefono'] === NULL ) ? "" : $_POST['ingTelefono'];  
-                $tabla ="persona";
-                $newDate = date("d/m/Y", strtotime($ingFecha));
+            $ingTelefono = ( $_POST['ingTelefono'] === NULL ) ? "" : $_POST['ingTelefono'];    
                 $datos = array(
                     "ID_PERSONA"=>$ingDni,                
                     "TIPO_DOCUMENTO"=>$ingTipoDocumento,                
@@ -36,7 +34,7 @@ class ControladorPersona{
                     "TELEFONO"=>$ingTelefono,
                     "CELULAR"=>$ingCelular
                 );
-                $respuesta = ModeloPersona::mdlIngresarPersona($tabla,$datos);
+                $respuesta = ModeloPersona::mdlIngresarPersona($datos);
                 if($respuesta=="ok"){ 
                     echo '<script>
                     Swal.fire({
@@ -70,6 +68,49 @@ class ControladorPersona{
             </script>';   
         }    
     }  
+    static public function ctrBorrar(){
+        if(isset($_POST["idBorrar"])){  
+                //Carga on
+                echo'
+                <script>             
+                    var element = document.getElementById("loader");
+                    element.classList.remove("hide"); 
+                    element.classList.add("show");
+                </script>';   
+                $respuesta = ModeloPersona::mdlBorrar($_POST["idBorrar"]);
+                if($respuesta=="ok"){
+                    echo '<script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "Registro borrado",
+                        text: "Se borro correctamente",
+                        allowOutsideClick: false
+                      }).then((result)=>{
+                          if(result.value){
+                              window.location="Persona";
+                          }
+                        });
+                    </script>
+                    ';
+                } else{
+                    echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error...",
+                        text: "No se pudo borrar",
+                      });
+                    </script>
+                    ';
+                }
+                //Carga off
+                echo'
+                <script>             
+                    var element = document.getElementById("loader");
+                    element.classList.add("hide"); 
+                    element.classList.remove("show");
+                </script>';  
+        }
+    }
     // Editar Persona 
     static public function ctrEditarPersona(){
         if(isset($_POST['EditDocumento'])){ 
@@ -87,8 +128,7 @@ class ControladorPersona{
                     "APELLIDO_P"=>$_POST['EditApellido_p'],
                     "APELLIDO_M"=>$_POST['EditApellido_m'],
                     "SEXO"=>$_POST['EditSexo'],
-                    "FECHA_NACIMIENTO"=>$_POST['EditFecha'],
-                    "CORREO_INST"=>$_POST['EditCorreoCorp'],
+                    "FECHA_NACIMIENTO"=>$_POST['EditFecha'], 
                     "CORREO"=>$_POST['EditCorreo'], 
                     "TELEFONO"=>$_POST['EditTelefono'],
                     "CELULAR"=>$_POST['EditCelular']); 
@@ -213,81 +253,81 @@ class ControladorPersona{
     }
    // Editar 
    static public function ctrEditarTodo(){
-    if(isset($_POST["ingFecha"])){
-        if(preg_match('/^[0-9]+$/',$_POST["ingCelular"])){  
-            //Carga on
+        if(isset($_POST["ingFecha"])){
+            if(preg_match('/^[0-9]+$/',$_POST["ingCelular"])){  
+                //Carga on
+                echo'
+                <script>             
+                    var element = document.getElementById("loader");
+                    element.classList.remove("hide"); 
+                    element.classList.add("show");
+                </script>'; 
+                $tabla ="persona"; 
+                $fechamax='2005';
+                $año=substr($_POST["ingFecha"], -4); 
+                if($fechamax> $año){  
+                    //validar fecha
+                        $datos=array(
+                        "ID_PERSONA"=>$_SESSION["ID_PERSONA"],
+                        "FECHA_NACIMIENTO"=>$_POST["ingFecha"],
+                        "CORREO"=>$_POST["ingCorreo"], 
+                        "TELEFONO"=>$_POST["ingTelefono"],
+                        "CELULAR"=>$_POST["ingCelular"] 
+                        );
+                        $respuesta = ModeloPersona::mdlEditar($tabla,$datos);
+                        if($respuesta=="ok"){
+                            echo '<script>
+                            Swal.fire({
+                                icon: "success",
+                                title: "Actualizado...",
+                                text: "Se actualizo correctamente",
+                                allowOutsideClick: false
+                            }).then((result)=>{
+                                if(result.value){
+                                    window.location="MiPersona";
+                                }
+                            });
+                            </script>
+                            ';
+                        }else{
+                            echo '<script>
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error...",
+                                text: "No se puedo actualizar",
+                            });
+                            </script>
+                            ';
+                        }
+                }//Validar fecha 
+                else{
+                    echo '<script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error...",
+                        text: "Un error en la fecha, tiene que ser menor",
+                    });
+                    </script>
+                    ';
+                }
+            //Carga off
             echo'
             <script>             
                 var element = document.getElementById("loader");
-                element.classList.remove("hide"); 
-                element.classList.add("show");
+                element.classList.add("hide"); 
+                element.classList.remove("show");
             </script>'; 
-            $tabla ="persona"; 
-            $fechamax='2005';
-            $año=substr($_POST["ingFecha"], -4); 
-            if($fechamax> $año){  
-                //validar fecha
-                    $datos=array(
-                    "ID_PERSONA"=>$_SESSION["ID_PERSONA"],
-                    "FECHA_NACIMIENTO"=>$_POST["ingFecha"],
-                    "CORREO"=>$_POST["ingCorreo"], 
-                    "TELEFONO"=>$_POST["ingTelefono"],
-                    "CELULAR"=>$_POST["ingCelular"] 
-                    );
-                    $respuesta = ModeloPersona::mdlEditar($tabla,$datos);
-                    if($respuesta=="ok"){
-                        echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "Actualizado...",
-                            text: "Se actualizo correctamente",
-                            allowOutsideClick: false
-                        }).then((result)=>{
-                            if(result.value){
-                                window.location="MiPersona";
-                            }
-                          });
-                        </script>
-                        ';
-                    }else{
-                        echo '<script>
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error...",
-                            text: "No se puedo actualizar",
-                        });
-                        </script>
-                        ';
-                    }
-            }//Validar fecha 
-            else{
-                echo '<script>
-                Swal.fire({
-                    icon: "error",
-                    title: "Error...",
-                    text: "Un error en la fecha, tiene que ser menor",
-                });
-                </script>
-                ';
             }
-        //Carga off
-        echo'
-        <script>             
-            var element = document.getElementById("loader");
-            element.classList.add("hide"); 
-            element.classList.remove("show");
-        </script>'; 
-        }
-     else{
-        echo '<script>
-        Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: "No puede ir vacio o llevar caracteres especiales",
-          });
-        </script>
-        ';
+        else{
+            echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Error...",
+                text: "No puede ir vacio o llevar caracteres especiales",
+            });
+            </script>
+            ';
+            }
         }
     }
-}
 }

@@ -28,26 +28,30 @@
                             <th style="width: 10px">N°</th>
                             <th style="width:10px">Opciones</th>
                             <th style="width:10px">N° Documento</th>
-                            <th>Persona</th>  
-                            <th style="width:10px">Rol</th>
+                            <th>Persona</th>   
                             <th style="width:10px">Cargo</th>
                             <th style="width:10px">Condicion</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-                      $item=null;
-                      $valor=null;
-                      $lista=ControladorAdministracion::ctrListar($item,$valor);
+                      $item=null; 
+                      $lista=ControladorAdministracion::ctrListar($item);
                       foreach($lista as $key =>$value){ 
                         echo ' 
                         <tr>        
                         <td>'.($key+1).'</td>      ';?>                 
-                        <td><a class="badge badge-success" onclick="getPer('<?=$value['ID_PERSONA']?>')" data-toggle="modal" data-target="#modalView"><i class="fas fa-info-circle"></i></a>            
+                        <td>
+                            <a class="badge badge-info" onclick="getAdm('<?=$value['ID_ADMINISTRATIVO']?>')"
+                                data-toggle="modal" data-target="#modalEditar"><i class="fas fa-pen"></i></a>
+                            <a class="badge badge-success" onclick="getPer('<?=$value['ID_PERSONA']?>')"
+                                data-toggle="modal" data-target="#modalView"><i class="fas fa-info-circle"></i></a>
+                            <a class="badge badge-danger" onclick="getBorrarAdm('<?=$value['ID_ADMINISTRATIVO']?>')"
+                                data-toggle="modal" data-target="#modalBorrar"><i class="fas fa-trash"></i></a>         
                         <?php echo '
+                        </td>
                         <td>'.$value["ID_PERSONA"].'</td>
-                        <td>'.strtok($value["NOMBRE"]," ").', '.$value["APELLIDO_P"].' '.$value["APELLIDO_M"].'</td>                              
-                        <td>'.$value["ROL"].'</td>                           
+                        <td>'.strtok($value["NOMBRE"]," ").', '.$value["APELLIDO_P"].' '.$value["APELLIDO_M"].'</td>                          
                         <td>'.$value["CARGO"].'</td>                           
                         <td>'.$value["CONDICION"].'</td>                           
                         </tr>
@@ -63,25 +67,99 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-<!-- Modal Agregar -->
-<div id="modalAdd" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog  modal-xl"> 
-    <form role="form" method="post">
+<!-- Modal Editar -->
+<div id="modalEditar" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <form role="form" method="post" class="needs-validation" novalidate>
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title">Agregar Usuario</h4>
+                    <h4 class="modal-title">Editar</h4>
+                    <button type="button" class="close  bg-danger" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="editId" required>
+                    <div class="form-group">
+                        <label>Persona <span class="text-danger">*</span></label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="editPersona" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cargo <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editCargo" name="editCargo">
+                    </div>
+                    <div class="form-group">
+                        <label>Condicion <span class="text-danger">*</span></label>
+                        <select class="form-control" name="editCondicion" id="editCondicion" required> 
+                        </select>
+                    </div>
+                    <?php
+                    $obj = new ControladorAdministracion();
+                    $obj ->ctrEditar(); 
+                    ?>
+                    <br>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-success">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal borrar-->
+<div class="modal fade" id="modalBorrar" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+        <form role="form" method="post">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <br>
+                    <h1><i class="fas fa-trash text-danger"></i></h1>
+                    <br>
+                    <h4>¿Desea borrar usuario?</h4>
+                    <input type="hidden" id="idBorrar" name="idBorrar" required>
+                    <?php
+                    $obj = new ControladorAdministracion();
+                    $obj ->ctrBorrar(); 
+                    ?>
+                    <br>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-danger">Borrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal Agregar -->
+<div id="modalAdd" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog  modal-xl">
+        <form role="form" method="post">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h4 class="modal-title">Agregar</h4>
                     <button type="button" class="close  bg-danger" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="">Personal</label>
+                        <label for="">Personal <span class="text-danger">*</span></label>
                         <select class="form-control js-example-basic-single" name="ingDni" style="width: 100%;"
-                            name="Persona">
-                            <?php 
-                                $item=null;
-                                $valor=null;
-                                $lista=ControladorPersona::ctrListar($item,$valor);
+                            required>
+                            <option value=""> Seleccione Persona </option>
+                            <?php  
+                                $lista=ControladorAdministracion::ctrListarPersona();
                                 foreach($lista as $key =>$value){ 
                                     echo '      
                                     <option value="'.$value["ID_PERSONA"].'">'.strtok($value["NOMBRE"]," ").', '.$value["APELLIDO_P"].' '.$value["APELLIDO_M"].'</option>
@@ -91,37 +169,39 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Ingrese contraseña</label>
+                        <label>Cargo <span class="text-danger">*</span></label>
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            </div>
-                            <input type="password" class="form-control" name="ingContraseña"
-                                placeholder="Ingrese Constraseña" required>
+                            <input type="text" class="form-control" name="ingCargo" placeholder="Ingrese Cargo"
+                                required>
                         </div>
                     </div>
-
-                    <!-- <h4>Subir Foto</h4>
-                    <hr>
-                    <input type="file" class="nuevaFoto" name="nuevaFoto">
-                    <p class="help-block">Peso maximo de la foto 20MB</p>
-                    <img src="vistas/img/usuario/default/anonymous.png" class="img-thumbnail" width="100px"> -->
-
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-
+                    <div class="form-group">
+                        <label>Condicion <span class="text-danger">*</span></label>
+                        <select class="form-control" name="ingCondicion" required>
+                            <option value="">Seleccione Condicion</option>
+                            <option>Nombrado</option>
+                            <option>Contratado</option>
+                            <option>Tercero</option>
+                        </select>
+                    </div>
+                    <?php
+                    $obj = new ControladorAdministracion();
+                    $obj ->ctrCrear(); 
+                    ?>
+                    <br>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <?php
-      $crearUsuario = new ControladorUsuario();
-      $crearUsuario ->ctrCrearUsuario(); 
-      ?>
         </form>
     </div>
 </div>
-
 <!-- Modal View -->
 <div id="modalView" class="modal fade" role="dialog">
     <div class="modal-dialog  modal-xl">

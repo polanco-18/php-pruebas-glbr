@@ -37,17 +37,6 @@
                          </p>
                      </a>
                  </li>
-                 <?php if($_SESSION["CH"]<92 && $_SESSION["CH"]>0){?>
-                 <li class="nav-item">
-                     <a href="MiDocumentos"
-                         class="nav-link <?php echo $_SESSION['Pagina'] =='MiDocumentos' ? 'active' : ''; ?>">
-                         <i class="nav-icon fas fa-file-alt"></i>
-                         <p>
-                             Mis Documentos
-                         </p>
-                     </a>
-                 </li>
-                 <?php }?>
                  <li class="nav-header"><i class="fas fa-puzzle-piece"></i> &nbsp;Servicios</li>
                  <li class="nav-item">
                      <a href="MiMesadePartes"
@@ -67,7 +56,7 @@
                          </p>
                      </a>
                  </li>
-                 <?php if($_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN'){?>
+                 <?php if($_SESSION["ROL"]=='1'){?>
                  <li class="nav-header"><i class="fas fa-th"></i> &nbsp;Administrativo</li>
                  <li
                      class="nav-item has-treeview <?php echo $_SESSION['Pagina'] =='Persona'|| $_SESSION['Pagina'] =='PersonaEdit' || $_SESSION['Pagina'] =='Administracion' || $_SESSION['Pagina'] =='PersonaActividad' || $_SESSION['Pagina'] =='Usuario' ? 'menu-open" ' : ''; ?>">
@@ -107,40 +96,22 @@
                                  </p>
                              </a>
                          </li>
-                         <li class="nav-item">
-                             <a href="PersonaActividad"
-                                 class="nav-link <?php echo $_SESSION['Pagina'] =='PersonaActividad' ? 'active' : ''; ?>">
-                                 <i class="nav-icon fas fa-chart-line"></i>
-                                 <p>
-                                     Persona Actividad
-                                 </p>
-                             </a>
-                         </li>
                      </ul>
                  </li>
                  <?php }?>
-                 <?php if($_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN' || $_SESSION["ADMINISTRATIVO_ROL"]=='SUB' || $_SESSION["ADMINISTRATIVO_ROL"]=='UA'){?>
+                 <?php if($_SESSION["ROL"]=='1' || $_SESSION["ROL"]=='2'){?>
                  <li class="nav-header"><i class="fas fa-th"></i> &nbsp;Unidad Academica</li>
                  <li class="nav-item">
-                     <a href="Docente" class="nav-link <?php echo $_SESSION['Pagina'] =='Docente' ? 'active' : ''; ?>">
+                     <a href="AsigPlazaVacante" class="nav-link <?php echo $_SESSION['Pagina'] =='AsigPlazaVacante' ? 'active' : ''; ?>">
                          <i class="nav-icon fas fa-chalkboard-teacher"></i>
                          <p>
-                             Docentes
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="Documentos"
-                         class="nav-link <?php echo $_SESSION['Pagina'] =='Documentos' ? 'active' : ''; ?>">
-                         <i class="nav-icon fas fa-file-pdf"></i>
-                         <p>
-                             Documentos
+                             Plaza vacante
                          </p>
                      </a>
                  </li>
                  <?php }?>
 
-                 <?php if($_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN' || $_SESSION["ADMINISTRATIVO_ROL"]=='SUB' || $_SESSION["ADMINISTRATIVO_ROL"]=='RH'){?>
+                 <?php if($_SESSION["ROL"]=='1' || $_SESSION["ROL"]=='3'){?>
                  <li class="nav-header"><i class="fas fa-hands-helping"></i>&nbsp; Recursos Humanos</li>
                  <li class="nav-item">
                      <a href="Asistencia"

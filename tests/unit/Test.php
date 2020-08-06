@@ -1,6 +1,7 @@
 <?php 
 use PHPUnit\Framework\TestCase;
 require './tests/Usuario.php';
+require './tests/Asistencia.php';
 class Test extends TestCase{    
     /** @test @covers */
     public function actualizarContraseña()
@@ -27,6 +28,13 @@ class Test extends TestCase{
         $usuario='74085764';
         $Usuario = new Usuario();
         $this->assertEquals($Usuario->ctrEditarUsuario($c_actual,$usuario),'Actualizado','se espera Actualizado');
+    }
+    /** @test @covers */
+    public function ValidarAsistencia()
+    {
+        $usuario='74085764';
+        $obj = new Asistencia();
+        $this->assertEquals($obj->ctrValidar($usuario),'salida','No existe registro');
     }
      
 }

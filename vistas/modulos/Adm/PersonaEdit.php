@@ -94,11 +94,10 @@
                                             placeholder="Ingrese Apellido Materno" required>
                                     </div>
                                 </div>
-                            </div>
-
+                            </div> 
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Sexo <span class="text-danger">*</span></label>
                                     <select class="form-control" name="EditSexo" value="<?php echo $lista["SEXO"];?>"
@@ -118,7 +117,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Ingrese Fecha de Nacimiento <span class="text-danger">*</span></label>
                                     <div class="input-group mb-3">
@@ -131,19 +130,7 @@
                                             data-mask="" im-insert="false" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Ingrese Correo Corporativo </label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-at"></i></span>
-                                        </div>
-                                        <input type="email" class="form-control" name="EditCorreoCorp"
-                                            value="<?php echo $lista["CORREO_INST"];?>" placeholder="Ingrese Correo">
-                                    </div>
-                                </div>
-                            </div>
+                            </div> 
                         </div>
                         <div class="row">
                             <div class="col-md-4">

@@ -50,18 +50,16 @@ session_start();
     <!-- js -->
     <script src="vistas/dist/js/Plantilla.js"></script>
     <script src="vistas/dist/js/Usuario.js"></script>
-    <script src="vistas/dist/js/Actividad.js"></script>
     <script src="vistas/dist/js/Persona.js"></script>
-    <script src="vistas/dist/js/AsigCurso.js"></script>
-    <script src="vistas/dist/js/AsigNoLectivas.js"></script>
     <script src="vistas/dist/js/Asistencia.js"></script>
-    <script src="vistas/dist/js/PartesDiarios.js"></script>
+    <script src="vistas/dist/js/Administrativo.js"></script>
+    <script src="vistas/dist/js/AsigPlazaVacante.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed" style="height: auto;">
     <!-- Site wrapper -->
     <?php 
-if(isset($_SESSION["iniciarSesion"])&& $_SESSION["iniciarSesion"]=="ok")
+if($_SESSION["ROL"]>0)
 { echo '<div class="wrapper">';
        
     if((time()-$_SESSION['Sesion_tiempo'])>1800){
@@ -84,37 +82,16 @@ if(isset($_SESSION["iniciarSesion"])&& $_SESSION["iniciarSesion"]=="ok")
             else if(
                 $_GET["ruta"]=="ActPassword" || 
                 $_GET["ruta"]=="MiAsistencia" ||
-                $_GET["ruta"]=="MiCapacitaciones" ||
-                $_GET["ruta"]=="MiDocumentos" ||
+                $_GET["ruta"]=="MiCapacitaciones" || 
                 $_GET["ruta"]=="MiMesadePartes" ||
                 $_GET["ruta"]=="MiPersona"){
                 include "modulos/Individual/".$_GET["ruta"].".php";
-            }//Docente
-            else if(($_SESSION["CH"]>0 || $_SESSION["ADMINISTRATIVO_ROL"]=='UA' || 
-            $_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN' || 
-            $_SESSION["ADMINISTRATIVO_ROL"]=='SUB') && (
-                $_GET["ruta"]=="MiPermanencia" ||
-                $_GET["ruta"]=="MiCargasAcademicas" ||
-                $_GET["ruta"]=="MiAsigCurso" ||
-                $_GET["ruta"]=="MiAsigCursoDetalle")){
-                include "modulos/Docente/".$_GET["ruta"].".php";
-            }  //UnidadAcademica
-            else if(($_SESSION["ADMINISTRATIVO_ROL"]=='UA' || 
-                $_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN' || 
-                $_SESSION["ADMINISTRATIVO_ROL"]=='SUB' ) && 
-                ($_GET["ruta"]=="AsigCurso" ||
-                $_GET["ruta"]=="AsigNoLectivas" ||
-                $_GET["ruta"]=="AsigPlazaVacante" ||
-                $_GET["ruta"]=="Documentos" ||
-                $_GET["ruta"]=="Curso" ||  
-                $_GET["ruta"]=="Docente" ||
-                $_GET["ruta"]=="Asistente" ||
-                $_GET["ruta"]=="PartesDiarios" ||
-                $_GET["ruta"]=="PartesDiariosDet" ||
-                $_GET["ruta"]=="Permanencia")){
+            } //UnidadAcademica
+            else if(($_SESSION["ROL"]=='1' || 
+                $_SESSION["ROL"]=='2' ) && $_GET["ruta"]=="AsigPlazaVacante"){
                 include "modulos/UnidadAcademica/".$_GET["ruta"].".php";
             }//SuperAdm
-            else if($_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN' && 
+            else if($_SESSION["ROL"]=='1' && 
                 ($_GET["ruta"]=="PersonaActividad" || 
                 $_GET["ruta"]=="Persona" ||  
                 $_GET["ruta"]=="PersonaEdit" ||  
@@ -123,9 +100,9 @@ if(isset($_SESSION["iniciarSesion"])&& $_SESSION["iniciarSesion"]=="ok")
                 include "modulos/Adm/".$_GET["ruta"].".php";
             }
             //Administrativo
-            else if(($_SESSION["ADMINISTRATIVO_ROL"]=='RH' || 
-                $_SESSION["ADMINISTRATIVO_ROL"]=='ADMIN' || 
-                $_SESSION["ADMINISTRATIVO_ROL"]=='SUB' ) && 
+            else if(($_SESSION["ROL"]=='3' || 
+                $_SESSION["ROL"]=='1' || 
+                $_SESSION["ROL"]=='2' ) && 
                 $_GET["ruta"]=="Asistencia"){
                 include "modulos/Administracion/".$_GET["ruta"].".php";
             }

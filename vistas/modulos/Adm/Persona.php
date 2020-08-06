@@ -31,7 +31,7 @@
                             <th>Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
-                            <th>Correo Institucional</th>
+                            <th>Correo</th>
                             <th style="width:10px">Celular</th>
                         </tr>
                     </thead>
@@ -50,13 +50,16 @@
                                 data-toggle="modal" data-target="#modalView"><i class="fas fa-info-circle"></i></a>
                             <a class="badge badge-info"
                                 href="index.php?ruta=PersonaEdit&Id=<?=$value['ID_PERSONA']?>"><i
-                                    class="fas fa-edit"></i></a></td>
+                                    class="fas fa-edit"></i></a>
+                            <a class="badge badge-danger" onclick="getBorrar('<?=$value['ID_PERSONA']?>')"
+                                data-toggle="modal" data-target="#modalBorrar"><i class="fas fa-trash"></i></a>
+                        </td>
                         <?php echo'
                          <td>'.$value["ID_PERSONA"].'</td>
                         <td>'.strtok($value["NOMBRE"]," ").'</td>
                         <td>'.$value["APELLIDO_P"].'</td>
                         <td>'.$value["APELLIDO_M"].'</td>                     
-                        <td>'.$value["CORREO_INST"].'</td>                              
+                        <td>'.$value["CORREO"].'</td>                              
                         <td>'.$value["CELULAR"].'</td>                           
                         </tr>
                         ';
@@ -72,6 +75,35 @@
 </div>
 <!-- /.content-wrapper -->
 
+<!-- Modal borrar-->
+<div class="modal fade" id="modalBorrar" role="dialog" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+        <form role="form" method="post">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <br>
+                    <h1><i class="fas fa-trash text-danger"></i></h1>
+                    <br>
+                    <h4>¿Desea borrar persona?</h4>
+                    <input type="hidden" id="idBorrar" name="idBorrar" required>
+                    <?php
+                    $obj = new ControladorPersona();
+                    $obj ->ctrBorrar(); 
+                    ?>
+                    <br>
+                    <div class="row text-center">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-danger">Borrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- Modal Agregar -->
 <div id="modalAdd" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog  modal-xl">
@@ -104,7 +136,8 @@
                                             <span class="input-group-text"><i class="fas fa-flag"></i></span>
                                         </div>
                                         <input type="text" class="form-control" id="ingNacionalidad"
-                                            name="ingNacionalidad" placeholder="Ingrese Nacionalidad"minlength="5" required>
+                                            name="ingNacionalidad" placeholder="Ingrese Nacionalidad" minlength="5"
+                                            required>
                                     </div>
                                 </div>
                             </div>
@@ -116,17 +149,11 @@
                                             <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                         </div>
                                         <input type="text" class="form-control" pattern="[0-9]{7,}" id="ingDocumento"
-                                            name="ingDocumento" placeholder="Ingrese N° de Documento" required> 
+                                            name="ingDocumento" placeholder="Ingrese N° de Documento" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mx-auto text-center">
-                                <div class="spinner-border text-primary carga hide" role="status">
-                                </div>
-                                <p class="text-primary carga hide">Cargando...</p>
-                            </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -164,7 +191,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-md-3">
@@ -290,14 +316,6 @@
                             <span id="NV-FECHA"></span>
                         </div>
                         <div class="col-md-8">
-                            <td colspan="2">
-                                <label>Correo Institucional : </label>
-                                <span id="NV-CORREO_INST"></span>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6">
                             <label>Correo Personal : </label>
                             <span id="NV-CORREO"></span>
                         </div>
